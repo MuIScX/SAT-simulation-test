@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
+    
+    <!-- https://favicon.io/emoji-favicons/money-bag/ -->
+    <script src="https://kit.fontawesome.com/277e6f7627.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="\static\style.css">
+    <title>myexam</title>
+</head>
+<body>
+    <div class="contanier-fluid m-3 p-3">
+        <div class="exam-head w-100 position-relative d-flex justify-content-between">
+            {%if type == "Math" %}
+            <p class="fs-3" style="font-weight: 400;">Section 2, Module {{question.module}} :{{type}} <br><span class="fs-5">Direction</span></p>
+            {% else %}
+            <p class="fs-3" style="font-weight: 400;">Section 1, Module {{question.module}} :{{type}} <br><span class="fs-5">Direction</span></p>
+            {% endif %}
+            <div class="position-absolute top-50 start-50 translate-middle">
+                <div style="font-size: 24px;" id="time" ></div>
+                <div style="font-size:0px" id="timeold" >{{time}}</div>
+                <div style="font-size:0px" id="exam_no" >{{exam_no}}</div>
+            </div>
+            
+            <div>
+                {%if type == "Math" %}
+                <button class="btn-func" onclick="DesmosInNewWindow()"><i class="fa-solid fa-calculator fa-2xl"></i></button>
+                <button class="btn-func" onclick="ReferenceSheetInNewWindow()"><i class="fa-solid fa-clipboard-list fa-2xl"></i></button>
+                
+            
+
+                {% endif %}
+            </div>
+            
+        </div>
+        <div class="exam-progress">
+            <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow= 1 aria-valuemin="0" aria-valuemax= 27 style="height: 10px;  background-color: #F1F1F1;">
+                <div class="progress-bar newton-bg-purple rounded-3" style="width: {{exam_percent}}%"></div>
+            </div>  
+            <div class="d-flex justify-content-between">
+                <span class="newton-text-purple " style="font-weight: 600;">Progress</span>
+                <span style="font-weight: 500;">Question {{exam_no}} of {{max_page}}</span>
+            </div>
+        </div>
+        <div class="exam-content my-lg-3">
+            <div class="row">
+                <div class="col-md-6"onclick="showMarkerArea(this);">
+                    {%if question.type == "Math"%}
+                    {%if mlevel == "hard"%}
+                    <Image  class="problem-pic" src=static\SAT\math_module{{question.module}}Hard\Problem\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png"/>
+                    {% else %}
+                    <Image  class="problem-pic" src=static\SAT\math_module{{question.module}}\Problem\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png"/>
+                    {% endif %}
+                    {% else %}
+                    {%if question.id == 5 %}
+                    <Image  class="problem-pic" src=static\SAT\Table\Q5.jpeg alt="Q5.jpeg"/>
+		    {%elif  question.id == 44 %}
+                    <Image  class="problem-pic" src=static\SAT\Table\Q44.png alt="Q44.png"/>
+
+                    {%elif  question.id == 56 %}
+                    <Image  class="problem-pic" src=static\SAT\Table\Q29.png alt="Q29.png"/>
+
+                    {% endif %}
+                    <span style="font-family: Georgia, serif; font-size: 24px;">{{question.question_text}}</span>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <div class="exam-markForReview d-flex text-center" style="background-color: #F2F2F2;">
+                        <div class="newton-bg-gray text-light" style="padding: 5px 10px 5px 10px;">
+                            {{exam_no}}
+                        </div>
+                        <form action="/exam" method="POST" id ="nextBtn">
+                        <div class="d-flex align-items-center mx-2">
+                            {%if mark == true  %}
+                            <input id="checkbox" name="mark" type="checkbox" checked>
+                            {%else%}
+                            <input id="checkbox" type="checkbox" name="mark">
+                            {% endif  %} 
+                            <label for="checkbox" class="btn-mark">
+                                <i class="fa-solid fa-bookmark fa-xl"></i>
+                            </label>
+                            <span style="font-size: 16px; font-weight: 500px;">Mark for Review</span>
+                        </div>
+                    </div>
+                    <div class="my-3">
+                        {%if question.type == "Math"%}
+                        <span class="fs-5"></span>
+                        {%else%}
+                        <span class="fs-5">{{question.subquestion_text}}</span>
+                        {% endif %}
+                    </div>
+                    <div class="exam-choice">
+                        
+
+                            <input type="hidden" id="time-value" name="time-value">
+                            {% if question.option_1 %}
+                            <p class="choice-border p-2 pic-control " >
+                                {%if question.option_1 == userinput%}
+                                    <input type="radio" name="answer" value=1 checked>
+                                    {%else%}
+                                    <input type="radio" name="answer" value=1 >
+                                {% endif  %} 
+                                {%if question.type == "Math"%}
+                                {%if mlevel == "hard"%}
+                    <Image class="logo-main" src=static\SAT\math_module{{question.module}}Hard\Choice\{{question.option_1}}\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png" />
+                                {%else%}
+                                <Image class="logo-main" src=static\SAT\math_module{{question.module}}\Choice\{{question.option_1}}\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png" />
+                                {% endif  %} 
+
+                                {% else %}  
+                                <lable class="choice-lable">
+                                    {{question.option_1}}
+                                </lable>
+                                {% endif  %}  
+                            </p>
+                            <p class="choice-border p-2 pic-control">
+                                {%if question.option_2 == userinput%}
+                                    <input type="radio" name="answer" value=2 checked>
+                                    {%else%}
+                                    <input type="radio" name="answer" value=2 >
+                                {% endif  %} 
+                                {%if question.type == "Math"%}
+                                {%if mlevel == "hard"%}
+                                <Image class="logo-main" src=static\SAT\math_module{{question.module}}Hard\Choice\{{question.option_2}}\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png" />
+                                            {%else%}
+                                <Image class="logo-main" src=static\SAT\math_module{{question.module}}\Choice\{{question.option_2}}\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png" />
+                                            {% endif  %} 
+                                {% else %}  
+                                <lable class="choice-lable">
+                                    {{question.option_2}}
+                                </lable>
+                                {% endif  %}
+                            </p>
+                            <p class="choice-border p-2 pic-control">
+                                {%if question.option_3 == userinput %}
+                                    <input type="radio" name="answer" value=3 checked>
+                                    {%else%}
+                                    <input type="radio" name="answer" value=3 >
+                                
+                                {% endif  %} 
+                                {%if question.type == "Math"%}
+                                {%if mlevel == "hard"%}
+                                <Image class="logo-main" src=static\SAT\math_module{{question.module}}Hard\Choice\{{question.option_3}}\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png" />
+                                            {%else%}
+                                <Image class="logo-main" src=static\SAT\math_module{{question.module}}\Choice\{{question.option_3}}\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png" />
+                                            {% endif  %} 
+                                {% else %}  
+                                <lable class="choice-lable mx-2">
+                                    {{question.option_3}}
+                                </lable>
+
+                                {% endif  %}
+                            </p>
+                            <p class="choice-border p-2 pic-control">
+                                {%if question.option_4 == userinput%}
+                                    <input type="radio" name="answer" value=4 checked>
+                                    {%else%}
+                                    <input type="radio" name="answer" value=4 >
+                                {% endif  %} 
+                                {%if question.type == "Math"%}
+                                {%if mlevel == "hard"%}
+                                <Image class="logo-main" src=static\SAT\math_module{{question.module}}Hard\Choice\{{question.option_4}}\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png" />
+                                            {%else%}
+                                <Image class="logo-main" src=static\SAT\math_module{{question.module}}\Choice\{{question.option_4}}\Q{{question.question_text}}.png alt="Q{{question.question_text}}.png" />
+                                            {% endif  %} 
+                                {% else %}  
+                                <lable class="choice-lable">
+                                    {{question.option_4}} 
+                                </lable> 
+                                {% endif  %}
+                            </p>
+                            {% else %}
+                            
+                            <p class="choice-border p-2 form-control">
+                                <input type="text" name="answer" class="w-100" value = "{{userinput}}">
+                            </p>
+                            {% endif %}
+                    </div>
+            
+                </div>
+            </div>
+        </div>
+        <div id="calculator-container" style="display:none;"></div>
+
+            <script>
+                var desmosCalculator;
+
+                function DesmosInNewWindow() {
+                    var calculatorUrl = 'https://www.desmos.com/calculator';
+                    var width = window.innerWidth * 0.8;
+                    var height = window.innerHeight * 0.8;
+                    var options = `toolbar=no, location=no, status=no, menubar=no, resizable=yes, width=${width}, height=${height}`;
+                    var desmosWindow = window.open(calculatorUrl, 'DesmosCalculator', options);
+        
+                    if (desmosWindow) {
+                        desmosWindow.onload = function() {
+                            desmosCalculator = Desmos.GraphingCalculator(desmosWindow.document.getElementById('calculator'));
+                        };
+                    } else {
+                        alert('Pop-up blocked! Please allow pop-ups for this website to use the Desmos calculator.');
+                    }
+                }
+                function resizeDesmos(width, height) {
+                    if (desmosCalculator) {
+                        desmosCalculator.resize(width, height);
+                    }
+                }
+            </script>
+            <script> function ReferenceSheetInNewWindow() {
+                var imageUrl = 'https://blog.olive-book.com/wp-content/uploads/2020/07/sat-formula-sheet-1024x529.png';
+                var width = window.innerWidth * 0.8;
+                var height = window.innerHeight * 0.8;
+                var options = `toolbar=no, location=no, status=no, menubar=no, resizable=yes, width=${width}, height=${height}`;
+                var desmosWindow = window.open(imageUrl, 'DesmosCalculator', options);
+    
+                if (desmosWindow) {
+                    desmosWindow.onload = function() {
+                        desmosCalculator = Desmos.GraphingCalculator(desmosWindow.document.getElementById('calculator'));
+                    };
+                } else {
+                    alert('Pop-up blocked! Please allow pop-ups for this website to use the Desmos calculator.');
+                }
+            }</script>
+        </div>
+            <script>
+                function toggleCommentArea() {
+                    var commentArea = document.getElementById('commentArea');
+                    if (commentArea.style.display === 'none' || commentArea.style.display === '') {
+                        commentArea.style.display = 'block';
+                    } else {
+                        commentArea.style.display = 'none';
+                    }
+                }
+
+                function saveComment() {
+                    var comment = document.getElementById('comment').value;
+                    console.log("Comment:", comment);
+                }
+            </script>
+        </div>
+        <footer>
+            <div class="exam-footer d-flex justify-content-between w-100 exam-dash-border p-3 ">
+                {% if exam_no != 1  %}
+                <button id="next-button" class="exam-next-button" type="submit" name="Back" value="1" >Back </button>
+                {% endif %}
+                <span class="fs-5 newton-text-purple" style="font-weight: 500;">{{first_name}} {{last_name}}</span>
+                <button class="exam-next-button" formaction = "/next_module">Next Module</button>
+
+                    <button id="next-button" class="exam-next-button" type="submit" name="Next" value="1" >Next </button>
+                
+            </div>
+            
+        </footer>
+
+    </form>
+    <div class="comment">
+        <div id="commentArea" style="display: none;">
+            <textarea id="comment" placeholder="Add your comment or note here"></textarea>
+            <br>
+            <button class="btn-hide" onclick="saveComment()">Save Comment</button>
+        </div>
+    <form id="timeout" method="POST" action="/timeout"></form>
+    </div>
+    <script>
+        
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+        document.getElementById("time-value").value = minutes + ":" + seconds;
+
+        localStorage.setItem("timerValue", timer)
+        if (--timer < 0) {
+            
+            console.log("time out")
+            document.getElementById("time-value").value = "00:00"
+            document.getElementById("timeout").submit();
+
+        }
+     } ,1000 );
+}
+
+window.onload = function () {
+
+    var time = document.getElementById("timeold").textContent
+    var exam_no = document.getElementById("exam_no").textContent,
+        display = document.querySelector('#time');
+        if (exam_no == 1)
+        {
+            localStorage.setItem("timerValue",time)
+            console.log("1")
+            console.log(time)
+        }
+        else 
+        {
+            localStorage.setItem("Valid", true)
+            console.log("2")
+            console.log(time)
+
+        }
+
+        var storedTimerValue = localStorage.getItem("timerValue");
+    var timerValue = storedTimerValue;
+    
+    startTimer(timerValue, display);
+
+
+}
+        </script>
+</body>
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+    <script>
+        function highlightText() {
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
+            var span = document.createElement("span");
+            span.className = "highlighted";
+            range.surroundContents(span);
+        }
+
+        function saveComment() {
+            var comment = document.getElementById('comment').value;
+            console.log("Comment:", comment);
+        }
+    </script>
+    <script src="https://unpkg.com/markerjs2/markerjs2.js"></script>
+    <script>
+    function showMarkerArea(target) {
+        const markerArea = new markerjs2.MarkerArea(target);
+  
+        // add all marker types
+        markerArea.availableMarkerTypes = markerArea.ALL_MARKER_TYPES;
+        
+        // enable redo, notes, zoom, and clear buttons (hidden by default)
+        markerArea.uiStyleSettings.redoButtonVisible = true;
+        markerArea.uiStyleSettings.notesButtonVisible = true;
+        markerArea.uiStyleSettings.zoomButtonVisible = true;
+        markerArea.uiStyleSettings.zoomOutButtonVisible = true;
+        markerArea.uiStyleSettings.clearButtonVisible = true;
+        
+        markerArea.addEventListener("render", (event) => (target.src = event.dataUrl));
+        markerArea.show();
+      }</script>
+</html>

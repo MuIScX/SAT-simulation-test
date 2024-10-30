@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All defaults demo</title>
+  <script src="https://unpkg.com/markerjs2/markerjs2.js"></script>
+  <script>
+    function showMarkerArea(target) {
+      const markerArea = new markerjs2.MarkerArea(target);
+
+      // add all marker types
+      markerArea.availableMarkerTypes = markerArea.ALL_MARKER_TYPES;
+      
+      // enable redo, notes, zoom, and clear buttons (hidden by default)
+      markerArea.uiStyleSettings.redoButtonVisible = true;
+      markerArea.uiStyleSettings.notesButtonVisible = true;
+      markerArea.uiStyleSettings.zoomButtonVisible = true;
+      markerArea.uiStyleSettings.zoomOutButtonVisible = true;
+      markerArea.uiStyleSettings.clearButtonVisible = true;
+      
+      markerArea.addEventListener("render", (event) => (target.src = event.dataUrl));
+      markerArea.show();
+    }
+    
+  </script>
+</head>
+<body>
+  <div class="my-3"onclick="showMarkerArea(this);"><span id="annotatableText" class="fs-5">One day, Jean Sot's mother wanted to go to town. "Now Jean," she said, "I want you to guard the door. "Yes, Mama, " Jean Sot agreed. Jean's mother left for town. Jean waited and waited for her to get back. But she was gone a very long time. Jean got worried, and decided to look for her. But he remembered he had promised to guard the door. So Jean took the door off of its hinges and carried it on his back when he went to look for his mother. Along the way, Jean Sot saw some robbers coming along the path, carrying a heavy sack of money. Jean Sot was frightened. He adjusted the door on his back as best as he could and climbed up a nearby tree to wait for the robbers to go by. But the robbers stopped underneath the tree! They sat down and began to count their money. The chief robber counted out the money for each man, saying: "This is for you, and this is for you, and this is for you." "And that one's for me, " Jean Sot cried. The robbers were startled. They looked around, but couldn't see anyone. The chief robber began counting again: "This is for you, and this is for you, and this is for you." Again, Jean Sot said: "That one's for me!" "Who is that?" called the chief robber. "I will wring his fool neck!" Jean Sot was so scared he began to shake, and the door fell off his back and down onto the robbers. "The Devil is throwing doors at us!" shouted one of the robbers. They were so frightened that all the robbers ran away without their money. So Jean Sot climbed down the tree, picked up the money and the door and took them home to his mother.</span></div>
+</body>
+</html>

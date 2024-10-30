@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    LogIn
+{% endblock %}
+
+{% block main %}
+<div class="overlay d-flex justify-content-center">
+    <div class="login-gui">
+        <div class="container-form">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="login-header">
+                    <h1 class="login-text">Login</h1>
+                </div>
+            </div>
+            <form method="POST" action="{{ url_for('login') }}">
+                <!--Student ID-->
+                <div class="studentID-form my-3">
+                    <label for="gmail" class="login-form-text fw-semibold fs-5">Email</label>
+                    <input 
+                        type="text" 
+                        class="border border-2  border-secondary-subtle  w-100 p-2 mt-1 fs-5 inputbox username-input" 
+                        name="gmail" 
+                        id="gmail" 
+                        placeholder="Enter your Email"
+                        required>
+                </div>
+                <!--Password-->
+                <div class="password-form my-3">
+                    <label 
+                        for="password" 
+                        class="login-form-text fw-semibold fs-5">
+                        Password
+                    </label>
+                    <input 
+                        type="password" 
+                        class="border border-2 border-secondary-subtle  w-100 p-2 mt-1 fs-5 purple-newton inputbox password-input" 
+                        name="password" 
+                        id="password" 
+                        placeholder="Enter your password"
+                        required>
+                </div>
+                <div class="submit-login">
+                    <button 
+                        class="login " 
+                        type="submit">
+                        Log in
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<script>
+
+window.onload = function () {
+        localStorage.clear();}
+</script>
+{% endblock %}

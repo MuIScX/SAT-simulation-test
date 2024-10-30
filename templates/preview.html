@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+    <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
+
+        <!-- https://favicon.io/emoji-favicons/money-bag/ -->
+    <script src="https://kit.fontawesome.com/277e6f7627.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-fluid bg-main">
+        <div class="row">
+            <div class="container-home col-sm-2  text-center border">
+                <h1>side bar</h1>
+            </div>
+            <div class="container-home col-lg-10  pt-2">
+                <div class="fakeHr mt-4">
+                </div>
+                <div class="row mt-4">
+                    <div class="container-home col-md-9 border px-4">
+                        <div class="container-welcome bg-gold-newton p-4 text-light ">
+                            <span class="fs-2">Wellcome, {{name}}!</span>
+                            <br>
+                            <span class="fs-5 fw-semibold">Good luck on test day!</span>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-7 border">
+                                <div class="d-flex justify-content-between flex-wrap align-items-center ">
+                                    <div class="">
+                                        <span class="purple-newton h4"><i class="fa-regular fa-file-lines"></i> Your test</span>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-secondary dropdown-toggle purple-newton">
+                                            Active
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="bg-light mt-2 p-4">
+                                    <div>
+                                        <span class="h5">SAT</span>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <span>Date:</span>         {{date}}      <br>
+                                            <span>Arrival Time:</span> {{time}}      <br>
+                                            <span>Doors Close:</span>  {{doorclose}} <br>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <span>  Date:         </span>   {{date}}       <br>
+                                            <span>  Arrival Time: </span>   {{time}}       <br>
+                                            <span>  Doors Close:  </span>   {{doorclose}}  <br>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <span>  Date:         </span>   {{date}}       <br>
+                                            <span>  Arrival Time: </span>   {{time}}       <br>
+                                            <span>  Doors Close:  </span>   {{doorclose}}  <br>
+                                        </p>
+                                    </div>
+                                    <div class="fakeHr mt-4">
+                                    </div>
+                                    <div>
+                                        {%if compleat%}
+                                        <p>
+                                            <span></span>   {{date}}       <br>
+                                            
+                                            <span>  Doors Close:  </span>   {{doorclose}}  <br>
+                                        </p>
+                                        {% endif %}
+                                        {% if error %}
+                                            <p class="text-danger"> <i class="fa-solid fa-triangle-exclamation" style="color: #ff0000;"></i> {{error}} </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-5 text-center border">
+                                <div class="d-flex justify-content-between flex-wrap align-items-center">
+                                    <div class="">
+                                        <span class="purple-newton h4"><i class="fa-solid fa-clock-rotate-left"></i> My History</span>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-secondary dropdown-toggle purple-newton">
+                                            Active
+                                        </button>
+                                    </div>
+                                </div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-home col-sm-3  text-center border">
+                        <h1>calendar</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
